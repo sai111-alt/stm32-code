@@ -1,0 +1,2 @@
+.\objects\core_cm3.o: D:\RJ\Keil5\STM32\Start\core_cm3.c
+.\objects\core_cm3.o: D:\RJ\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
