@@ -1,12 +1,17 @@
-#include "stm32f10x.h"                  // Device header
+#include "stm32f10x.h" // Device header
 
 int main(void)
 {
-	RCC->APB2ENR=0x00000010;
-	GPIOC->CRH=0x00300000;
-	GPIOC->ODR=0X00000000;
-	while(1)
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+	GPIO_InitTypeDef GPIO_initStructure;
+	GPIO_initStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_initStructure.GPIO_Pin = GPIO_Pin_13;
+	GPIO_initStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOC, &GPIO_initStructure);
+	GPIO_SetBits(GPIOC, GPIO_Pin_13); // å°†Pin_13ç½®ä¸ºé«˜ç”µå¹³
+	// GPIO_ResetBits(GPIOC, GPIO_Pin_13); // å°†Pin_13ç½®ä¸ºä½ç”µå¹³
+	while (1)
 	{
-		
+		;
 	}
-}//º¯Êı×îºóÒ»ĞĞ±ØĞëÊ±¿ÕĞĞ£¬·ñÔò»á±¨¾¯¸æ: last line of file ends without a newline
+} // å‡½æ•°æœ€åä¸€è¡Œå¿…é¡»æ—¶ç©ºè¡Œï¼Œå¦åˆ™ä¼šæŠ¥è­¦å‘Š: last line of file ends without a newline
