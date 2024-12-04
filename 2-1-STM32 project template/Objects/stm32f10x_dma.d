@@ -1,12 +1,12 @@
 .\objects\stm32f10x_dma.o: Library\stm32f10x_dma.c
 .\objects\stm32f10x_dma.o: Library\stm32f10x_dma.h
-.\objects\stm32f10x_dma.o: D:\RJ\Keil5\STM32\Start\stm32f10x.h
-.\objects\stm32f10x_dma.o: D:\RJ\Keil5\STM32\Start\core_cm3.h
+.\objects\stm32f10x_dma.o: .\Start\stm32f10x.h
+.\objects\stm32f10x_dma.o: .\Start\core_cm3.h
 .\objects\stm32f10x_dma.o: D:\RJ\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\stm32f10x_dma.o: D:\RJ\Keil5\STM32\Start\system_stm32f10x.h
+.\objects\stm32f10x_dma.o: .\Start\system_stm32f10x.h
 .\objects\stm32f10x_dma.o: .\User\stm32f10x_conf.h
 .\objects\stm32f10x_dma.o: .\Library\stm32f10x_adc.h
-.\objects\stm32f10x_dma.o: D:\RJ\Keil5\STM32\Start\stm32f10x.h
+.\objects\stm32f10x_dma.o: .\Start\stm32f10x.h
 .\objects\stm32f10x_dma.o: .\Library\stm32f10x_bkp.h
 .\objects\stm32f10x_dma.o: .\Library\stm32f10x_can.h
 .\objects\stm32f10x_dma.o: .\Library\stm32f10x_cec.h

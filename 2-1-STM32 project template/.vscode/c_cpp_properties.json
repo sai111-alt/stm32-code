@@ -3,9 +3,9 @@
         {
             "name": "Target 1",
             "includePath": [
-                "D:\\RJ\\Keil5\\STM32\\Start",
-                "d:\\Desktop\\2-1-STM32 project template\\Library",
-                "d:\\Desktop\\2-1-STM32 project template\\User"
+                "e:\\2-1-STM32 project template\\Start",
+                "e:\\2-1-STM32 project template\\Library",
+                "e:\\2-1-STM32 project template\\User"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",

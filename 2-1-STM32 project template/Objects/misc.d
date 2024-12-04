@@ -1,12 +1,12 @@
 .\objects\misc.o: Library\misc.c
 .\objects\misc.o: Library\misc.h
-.\objects\misc.o: D:\RJ\Keil5\STM32\Start\stm32f10x.h
-.\objects\misc.o: D:\RJ\Keil5\STM32\Start\core_cm3.h
+.\objects\misc.o: .\Start\stm32f10x.h
+.\objects\misc.o: .\Start\core_cm3.h
 .\objects\misc.o: D:\RJ\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\misc.o: D:\RJ\Keil5\STM32\Start\system_stm32f10x.h
+.\objects\misc.o: .\Start\system_stm32f10x.h
 .\objects\misc.o: .\User\stm32f10x_conf.h
 .\objects\misc.o: .\Library\stm32f10x_adc.h
-.\objects\misc.o: D:\RJ\Keil5\STM32\Start\stm32f10x.h
+.\objects\misc.o: .\Start\stm32f10x.h
 .\objects\misc.o: .\Library\stm32f10x_bkp.h
 .\objects\misc.o: .\Library\stm32f10x_can.h
 .\objects\misc.o: .\Library\stm32f10x_cec.h

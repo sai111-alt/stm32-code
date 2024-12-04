@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>D:\RJ\Keil5\STM32\Start;.\Library;.\User</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -384,32 +384,32 @@
             <File>
               <FileName>startup_stm32f10x_md.s</FileName>
               <FileType>2</FileType>
-              <FilePath>D:\RJ\Keil5\STM32\Start\startup_stm32f10x_md.s</FilePath>
+              <FilePath>.\Start\startup_stm32f10x_md.s</FilePath>
             </File>
             <File>
               <FileName>core_cm3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\RJ\Keil5\STM32\Start\core_cm3.c</FilePath>
+              <FilePath>.\Start\core_cm3.c</FilePath>
             </File>
             <File>
               <FileName>core_cm3.h</FileName>
               <FileType>5</FileType>
-              <FilePath>D:\RJ\Keil5\STM32\Start\core_cm3.h</FilePath>
+              <FilePath>.\Start\core_cm3.h</FilePath>
             </File>
             <File>
               <FileName>stm32f10x.h</FileName>
               <FileType>5</FileType>
-              <FilePath>D:\RJ\Keil5\STM32\Start\stm32f10x.h</FilePath>
+              <FilePath>.\Start\stm32f10x.h</FilePath>
             </File>
             <File>
               <FileName>system_stm32f10x.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\RJ\Keil5\STM32\Start\system_stm32f10x.c</FilePath>
+              <FilePath>.\Start\system_stm32f10x.c</FilePath>
             </File>
             <File>
               <FileName>system_stm32f10x.h</FileName>
               <FileType>5</FileType>
-              <FilePath>D:\RJ\Keil5\STM32\Start\system_stm32f10x.h</FilePath>
+              <FilePath>.\Start\system_stm32f10x.h</FilePath>
             </File>
           </Files>
         </Group>
