@@ -5,7 +5,8 @@
             "includePath": [
                 "d:\\Desktop\\3-1-LED flickering\\Start",
                 "d:\\Desktop\\3-1-LED flickering\\Library",
-                "d:\\Desktop\\3-1-LED flickering\\User"
+                "d:\\Desktop\\3-1-LED flickering\\User",
+                "d:\\Desktop\\3-1-LED flickering\\System"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",
