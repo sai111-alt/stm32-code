@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "stm32f10x.h": "c",
+    "buzzer.h": "c",
+    "delay.h": "c",
+    "lightsensor.h": "c"
+  }
+}
