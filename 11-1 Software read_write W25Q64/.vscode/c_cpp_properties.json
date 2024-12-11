@@ -3,11 +3,11 @@
         {
             "name": "Target 1",
             "includePath": [
-                "d:\\Desktop\\11-1 Software read_write w25Q64\\Start",
-                "d:\\Desktop\\11-1 Software read_write w25Q64\\Library",
-                "d:\\Desktop\\11-1 Software read_write w25Q64\\User",
-                "d:\\Desktop\\11-1 Software read_write w25Q64\\System",
-                "d:\\Desktop\\11-1 Software read_write w25Q64\\Hardware"
+                "d:\\Desktop\\11-1 Software read_write W25Q64\\Start",
+                "d:\\Desktop\\11-1 Software read_write W25Q64\\Library",
+                "d:\\Desktop\\11-1 Software read_write W25Q64\\User",
+                "d:\\Desktop\\11-1 Software read_write W25Q64\\System",
+                "d:\\Desktop\\11-1 Software read_write W25Q64\\Hardware"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",
