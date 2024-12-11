@@ -8,8 +8,8 @@ int main(void)
 	GPIO_initStructure.GPIO_Pin = GPIO_Pin_13;
 	GPIO_initStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC, &GPIO_initStructure);
-	GPIO_SetBits(GPIOC, GPIO_Pin_13); // 将Pin_13置为高电平
-	// GPIO_ResetBits(GPIOC, GPIO_Pin_13); // 将Pin_13置为低电平
+	// GPIO_SetBits(GPIOC, GPIO_Pin_13); // 将Pin_13置为高电平
+	GPIO_ResetBits(GPIOC, GPIO_Pin_13); // 将Pin_13置为低电平
 	while (1)
 	{
 		;
