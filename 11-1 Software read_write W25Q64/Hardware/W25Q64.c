@@ -49,7 +49,7 @@ void W25Q64_WaitBusy(void)
 /// @brief 按页对芯片写入数据
 /// @param Address 指定地址写
 /// @param DataArray 要发送的数据数组
-/// @param Count 取值范围1-256,写入数据有页的限制
+/// @param Count 表示要写入的字节个数，取值范围1-256,写入数据有页的限制
 void W25Q64_PageProgram(uint32_t Address, uint8_t *DataArray, uint16_t Count)
 {
     uint16_t i = 0;

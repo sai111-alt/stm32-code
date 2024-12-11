@@ -6,8 +6,8 @@
 uint8_t MID = 0x00;	 // 存厂商ID
 uint16_t DID = 0x00; // 存设备ID
 
-uint8_t ArrayWrite[] = {0x01, 0x02, 0x03, 0x04};
-uint8_t ArrayWrite[4];
+uint8_t ArrayWrite[] = {0xAA, 0xBB, 0xCC, 0xDD};
+uint8_t ArrayRead[4];
 
 int main(void)
 {
@@ -21,6 +21,21 @@ int main(void)
 	W25Q64_ReadID(&MID, &DID);
 	OLED_ShowHexNum(1, 5, MID, 2);
 	OLED_ShowHexNum(1, 12, DID, 4);
+
+	W25Q64_SectorErase(0X000000); // 注意：对于一个扇区变化的始终是后3位
+	W25Q64_PageProgram(0X000000, ArrayWrite, 4);
+
+	W25Q64_ReadData(0X000000, ArrayRead, 4);
+
+	OLED_ShowHexNum(2, 3, ArrayWrite[0], 2);
+	OLED_ShowHexNum(2, 6, ArrayWrite[1], 2);
+	OLED_ShowHexNum(2, 9, ArrayWrite[2], 2);
+	OLED_ShowHexNum(2, 12, ArrayWrite[3], 2);
+
+	OLED_ShowHexNum(3, 3, ArrayRead[0], 2);
+	OLED_ShowHexNum(3, 6, ArrayRead[1], 2);
+	OLED_ShowHexNum(3, 9, ArrayRead[2], 2);
+	OLED_ShowHexNum(3, 12, ArrayRead[3], 2);
 
 	while (1)
 	{
