@@ -963,8 +963,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\MySPI.c</PathWithFileName>
-      <FilenameWithoutPath>MySPI.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\W25Q64.c</PathWithFileName>
+      <FilenameWithoutPath>W25Q64.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -975,8 +975,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\MySPI.h</PathWithFileName>
-      <FilenameWithoutPath>MySPI.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\W25Q64.h</PathWithFileName>
+      <FilenameWithoutPath>W25Q64.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -987,8 +987,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\W25Q64.c</PathWithFileName>
-      <FilenameWithoutPath>W25Q64.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\MySPI_S.c</PathWithFileName>
+      <FilenameWithoutPath>MySPI_S.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -999,8 +999,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\W25Q64.h</PathWithFileName>
-      <FilenameWithoutPath>W25Q64.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\MySPI_S.h</PathWithFileName>
+      <FilenameWithoutPath>MySPI_S.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -2,6 +2,7 @@
 #define __W25Q64_H__
 
 #include "stm32f10x.h"
+#include "MySPI_S.h"
 
 #define W25Q64_WRITE_ENABLE 0x06
 #define W25Q64_WRITE_DISABLE 0x04
