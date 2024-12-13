@@ -3,11 +3,11 @@
         {
             "name": "Target 1",
             "includePath": [
-                "d:\\Desktop\\4-1-Key control led\\Start",
-                "d:\\Desktop\\4-1-Key control led\\Library",
-                "d:\\Desktop\\4-1-Key control led\\User",
-                "d:\\Desktop\\4-1-Key control led\\System",
-                "d:\\Desktop\\4-1-Key control led\\Hardware"
+                "e:\\学习\\学习文件\\电子              学习文件\\stm32单片机\\stm32-code\\3-4-Key control led\\Start",
+                "e:\\学习\\学习文件\\电子              学习文件\\stm32单片机\\stm32-code\\3-4-Key control led\\Library",
+                "e:\\学习\\学习文件\\电子              学习文件\\stm32单片机\\stm32-code\\3-4-Key control led\\User",
+                "e:\\学习\\学习文件\\电子              学习文件\\stm32单片机\\stm32-code\\3-4-Key control led\\System",
+                "e:\\学习\\学习文件\\电子              学习文件\\stm32单片机\\stm32-code\\3-4-Key control led\\Hardware"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",
