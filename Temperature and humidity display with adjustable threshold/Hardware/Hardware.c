@@ -13,7 +13,7 @@ void HardWare_Init(void)
     LED_Init();
 }
 
-void ValueJudgeShow(uint8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
+void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
 {
     if (DHT22_Read_Data(TemHemValue))
     {
@@ -29,12 +29,13 @@ void ValueJudgeShow(uint8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
     OLED_ShowNum(2, 4, TemHemValue[2], 2);
     OLED_ShowString(2, 6, ".");
     OLED_ShowNum(2, 7, TemHemValue[3], 1);
-    OLED_ShowString(2, 8, "*C");
+    OLED_ShowString(2, 8, "!C");
 
     OLED_ShowNum(3, 4, TemHemValue[0], 2);
     OLED_ShowString(3, 6, ".");
     OLED_ShowNum(3, 7, TemHemValue[1], 1);
-    if (LedFlashFlag==0)
+    OLED_ShowString(3, 8, "%RH");
+    if (LedFlashFlag == 0)
     {
         if (*KeyNum == 2)
         {
@@ -43,7 +44,8 @@ void ValueJudgeShow(uint8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
         }
         else
         {
-            if ((TemHemValue[0] < ArrayValue[0]) || (TemHemValue[0] > ArrayValue[1]))
+            W25Q64_ReadData(0X000000, ArrayValue, 4);
+            if ((TemHemValue[2] < ArrayValue[0]) || (TemHemValue[2] > ArrayValue[1]))
             {
                 Buzzer_Turn();
                 LED1_Turn();
@@ -58,7 +60,7 @@ void ValueJudgeShow(uint8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
                 LED1_Turn();
                 Delay_ms(700);
             }
-            if ((TemHemValue[2] < ArrayValue[0]) || (TemHemValue[2] > ArrayValue[1]))
+            if ((TemHemValue[0] < ArrayValue[2]) || (TemHemValue[0] > ArrayValue[3]))
             {
                 Buzzer_Turn();
                 LED2_Turn();
@@ -74,7 +76,6 @@ void ValueJudgeShow(uint8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
                 Delay_ms(700);
             }
         }
-
     }
 }
 
@@ -188,3 +189,24 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace)
     }
 }
 
+/// @brief 将实时的温湿度数值写入存储器的第二个扇区
+/// @param TemHemValue 温湿度的数组指针
+void DataStorage(int8_t *TemHemValue)
+{
+    static uint16_t StorageCount = 1024;
+    static uint32_t Address = 0x001000;
+
+    // 1个扇区4096B，一次存4个B，这里就存一个扇区，也就是可以存1024次温湿度数据
+    if (StorageCount)
+    {
+        W25Q64_PageProgram(Address, TemHemValue, 4);
+        Address += 4;
+        StorageCount--;
+    }
+    else
+    {
+        Address = 0x001000;
+        StorageCount = 1024;
+        W25Q64_SectorErase(0x001000);
+    }
+}

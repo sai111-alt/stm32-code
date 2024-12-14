@@ -99,7 +99,7 @@ uint8_t DHT22_Read_Byte(void)
 /// @param temp 温度 取值范围：0~50°
 /// @param humi 湿度 取值范围：20%~90%
 /// @return 0,正常;1,读取失败
-uint8_t DHT22_Read_Data(uint8_t *Array)
+uint8_t DHT22_Read_Data(int8_t *Array)
 {
 	uint8_t data[5];
 	uint8_t i;

@@ -12,7 +12,8 @@
 #include "LED.h"
 
 void HardWare_Init(void);
-void ValueJudgeShow(uint8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum);
+void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum);
 void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace);
+void DataStorage(int8_t *TemHemValue);
 
 #endif

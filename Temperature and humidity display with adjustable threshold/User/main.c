@@ -1,6 +1,6 @@
 #include "Hardware.h"
 
-uint8_t TemHemValue[4] = {0};  // 存放温湿度值，0湿度整数，1湿度度小数，2温度整数，3温度小数
+int8_t TemHemValue[4] = {0};   // 存放温湿度值，0湿度整数，1湿度度小数，2温度整数，3温度小数
 int8_t ArrayValue[4] = {0};	   // 放阈值,0即T的下阈值，1即T的上阈值，2即H的下阈值，3即H的上阈值
 uint8_t KeyNum = 0;			   // 存键码
 uint8_t SetFlag = 0;		   // 进入阈值设置的标志位，0完成1设置
@@ -24,8 +24,8 @@ int main(void)
 		ArrayValue[3] = 80;
 	}
 	// OLED固定显示
-	OLED_ShowString(2, 1, "T:");
-	OLED_ShowString(3, 1, "H:     %");
+	OLED_ShowString(2, 1, "(:");
+	OLED_ShowString(3, 1, "):");
 
 	while (1)
 	{
@@ -52,14 +52,15 @@ int main(void)
 
 				SetFlag = 0;
 				OLED_Clear();
-				OLED_ShowString(2, 1, "T:");
-				OLED_ShowString(3, 1, "H:     %");
+				OLED_ShowString(2, 1, "(:");
+				OLED_ShowString(3, 1, "):");
 			}
 		}
 		switch (SetFlag)
 		{
 		case 0:
 			ValueJudgeShow(TemHemValue, ArrayValue, &KeyNum);
+			DataStorage(TemHemValue);
 			break;
 		case 1:
 			ValueSet(ArrayValue, &KeyNum, &SetPlace);
