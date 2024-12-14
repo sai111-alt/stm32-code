@@ -11,6 +11,13 @@
 #include "Buzzer.h"
 #include "LED.h"
 
+#define THigh ArrayValue[0]
+#define TLow ArrayValue[1]
+#define HHigh ArrayValue[2]
+#define HLow ArrayValue[3]
+#define Tem TemHemValue[2]
+#define Hem TemHemValue[0]
+
 void HardWare_Init(void);
 void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum);
 void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace);

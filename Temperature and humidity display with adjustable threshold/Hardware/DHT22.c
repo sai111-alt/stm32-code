@@ -129,8 +129,8 @@ void DHT22_Init(void)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); // 使能PA端口时钟
 	GPIO_InitStructure.GPIO_Pin = DATA;					  // PG11端口配置
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;	  // 推挽输出
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;	  // 开漏模式
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB, &GPIO_InitStructure); // 初始化IO口
-	GPIO_SetBits(GPIOB, DATA);
+	GPIO_SetBits(GPIOB, DATA);			   // 拉高
 }

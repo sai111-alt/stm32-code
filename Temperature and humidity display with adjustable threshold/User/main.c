@@ -1,10 +1,10 @@
 #include "Hardware.h"
 
 int8_t TemHemValue[4] = {0};   // 存放温湿度值，0湿度整数，1湿度度小数，2温度整数，3温度小数
-int8_t ArrayValue[4] = {0};	   // 放阈值,0即T的下阈值，1即T的上阈值，2即H的下阈值，3即H的上阈值
+int8_t ArrayValue[4] = {0};	   // 放阈值
 uint8_t KeyNum = 0;			   // 存键码
 uint8_t SetFlag = 0;		   // 进入阈值设置的标志位，0完成1设置
-uint8_t SetPlace = 0;		   // 设置选择，0即T的上阈值，1即T的下阈值，2即H的上阈值，3即H的下阈值
+uint8_t SetPlace = 0;		   // 设置选择位
 uint8_t SetPlaceFlashFlag = 0; // 闪烁标志位
 
 int main(void)
@@ -14,19 +14,19 @@ int main(void)
 	// 将W25Q64中已经存好的阈值放入，第一次存入的数据自然是空白数据0xFF
 	// 因为这里是温湿度是有符号数-127~128，所以0xFF最高位是1，表示负数，应按补码计算原码为-1，所以第一次给的数据就是-1
 	W25Q64_ReadData(0X000000, ArrayValue, 4);
+	W25Q64_ReadData(0X001000, TemHemValue, 4); // 设备初试化时读出一次原来的实时温湿度数据
 	// DAT22测量范围T为-40~80，H为0%~100%
-	if (ArrayValue[1] > 80 || ArrayValue[0] < -40 || ArrayValue[3] > 100 || ArrayValue[2] < 0 ||
-		ArrayValue[0] > ArrayValue[1] || ArrayValue[2] > ArrayValue[3])
+	if (THigh > 80 || TLow < -40 || HHigh > 100 || HLow < 0 ||
+		TLow > THigh || HLow > HHigh)
 	{
-		ArrayValue[0] = 5;
-		ArrayValue[1] = 30;
-		ArrayValue[2] = 20;
-		ArrayValue[3] = 80;
+		TLow = 5;
+		THigh = 30;
+		HLow = 20;
+		HHigh = 80;
 	}
 	// OLED固定显示
 	OLED_ShowString(2, 1, "(:");
 	OLED_ShowString(3, 1, "):");
-
 	while (1)
 	{
 		KeyNum = Key_GetNum();
