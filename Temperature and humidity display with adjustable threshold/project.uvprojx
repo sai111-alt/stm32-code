@@ -725,6 +725,26 @@
               <FileType>1</FileType>
               <FilePath>.\Hardware\DHT22.c</FilePath>
             </File>
+            <File>
+              <FileName>Hardware.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Hardware.c</FilePath>
+            </File>
+            <File>
+              <FileName>Hardware.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Hardware.h</FilePath>
+            </File>
+            <File>
+              <FileName>LightSensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\LightSensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>LightSensor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\LightSensor.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

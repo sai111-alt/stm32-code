@@ -1,4 +1,5 @@
 .\objects\main.o: User\main.c
+.\objects\main.o: .\Hardware\Hardware.h
 .\objects\main.o: .\Start\stm32f10x.h
 .\objects\main.o: .\Start\core_cm3.h
 .\objects\main.o: D:\RJ\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -35,3 +36,4 @@
 .\objects\main.o: .\Hardware\Key.h
 .\objects\main.o: .\Hardware\LED.h
 .\objects\main.o: .\Hardware\DHT22.h
+.\objects\main.o: .\Hardware\Buzzer.h

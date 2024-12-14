@@ -3,6 +3,9 @@
 
 #include "stm32f10x.h" // Device header
 
+#define L1 GPIO_Pin_14
+#define L2 GPIO_Pin_15
+
 void LED_Init(void);
 void LED1_ON(void);
 void LED1_OFF(void);

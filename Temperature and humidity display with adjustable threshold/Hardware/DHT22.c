@@ -22,11 +22,11 @@ void DHT22_Mode(uint8_t mode)
 /// @param
 void DHT22_Start(void)
 {
-	DHT22_Mode(1); // 设置为输出模式
-	DHT22_Low;	   // 拉低
-	Delay_ms(18);  // 主机拉低18ms
-	DHT22_High;	   // 拉高
-	Delay_us(20);  // 主机拉高18-30us
+	DHT22_Mode(1);				 // 设置为输出模式
+	GPIO_ResetBits(GPIOB, DATA); // 拉低
+	Delay_ms(18);				 // 主机拉低18ms
+	GPIO_SetBits(GPIOB, DATA);	 // 拉高
+	Delay_us(20);				 // 主机拉高18-30us
 }
 
 /// @brief 等待DHT22的回应
@@ -132,5 +132,5 @@ void DHT22_Init(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;	  // 推挽输出
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB, &GPIO_InitStructure); // 初始化IO口
-	GPIO_SetBits(GPIOB, DATA);			   // PG11 输出高
+	GPIO_SetBits(GPIOB, DATA);
 }

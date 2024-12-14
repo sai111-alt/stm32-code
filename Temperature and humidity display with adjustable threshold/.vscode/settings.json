@@ -8,6 +8,9 @@
     "oled_font.h": "c",
     "key.h": "c",
     "myspi_s.h": "c",
-    "dht22.h": "c"
+    "dht22.h": "c",
+    "hardware.h": "c",
+    "led.h": "c",
+    "w25q64.h": "c"
   }
 }

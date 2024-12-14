@@ -32,6 +32,8 @@
 ".\objects\w25q64.o"
 ".\objects\myspi_s.o"
 ".\objects\dht22.o"
+".\objects\hardware.o"
+".\objects\lightsensor.o"
 ".\objects\delay.o"
 ".\objects\timer.o"
 ".\objects\main.o"
