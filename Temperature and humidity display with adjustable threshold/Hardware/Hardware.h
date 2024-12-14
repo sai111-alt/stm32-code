@@ -10,6 +10,7 @@
 #include "DHT22.h"
 #include "Buzzer.h"
 #include "LED.h"
+#include "Timer.h"
 
 #define THigh ArrayValue[0]
 #define TLow ArrayValue[1]
@@ -20,7 +21,7 @@
 
 void HardWare_Init(void);
 void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum);
-void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace);
+void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *SetPlaceFlashFlag);
 void DataStorage(int8_t *TemHemValue);
 
 #endif

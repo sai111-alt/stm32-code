@@ -13,45 +13,32 @@ void Key_Init(void)
     GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 
-uint8_t Key_GetNum(void)
+uint8_t Key_GetNum(uint8_t *KeyFlag)
 {
-    uint8_t KeyNum = 0;
-
-    if (GPIO_ReadInputDataBit(GPIOA, k1) == 0)
+    if ((Key1 == 0 || Key2 == 0 || Key3 == 0 || Key4 == 0) && (*KeyFlag))
     {
-        Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOA, k1) == 0)
-            ;
-        Delay_ms(20);
-        KeyNum = 1;
+        Delay_ms(10); // 消抖
+        (*KeyFlag) = 0;
+        if (Key1 == 0)
+        {
+            return 1;
+        }
+        else if (Key2 == 0)
+        {
+            return 2;
+        }
+        else if (Key3 == 0)
+        {
+            return 3;
+        }
+        else if (Key4 == 0)
+        {
+            return 4;
+        }
     }
-
-    if (GPIO_ReadInputDataBit(GPIOA, k2) == 0)
+    else if (Key1 == 1 && Key2 == 1 && Key3 == 1 && Key4 == 1)
     {
-        Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOA, k2) == 0)
-            ;
-        Delay_ms(20);
-        KeyNum = 2;
+        (*KeyFlag) = 1;
     }
-
-    if (GPIO_ReadInputDataBit(GPIOA, k3) == 0)
-    {
-        Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOA, k3) == 0)
-            ;
-        Delay_ms(20);
-        KeyNum = 3;
-    }
-
-    if (GPIO_ReadInputDataBit(GPIOA, k4) == 0)
-    {
-        Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOA, k4) == 0)
-            ;
-        Delay_ms(20);
-        KeyNum = 4;
-    }
-
-    return KeyNum;
+    return 0;
 }

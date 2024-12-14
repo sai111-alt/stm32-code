@@ -37,3 +37,4 @@
 .\objects\hardware.o: Hardware\LED.h
 .\objects\hardware.o: Hardware\DHT22.h
 .\objects\hardware.o: Hardware\Buzzer.h
+.\objects\hardware.o: .\System\Timer.h

@@ -16,7 +16,7 @@ void Timer_Init(void)
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;				// 定义结构体变量
 	TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;		// 时钟分频，选择不分频，此参数用于配置滤波器时钟，不影响时基单元功能
 	TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up; // 计数器模式，选择向上计数
-	TIM_TimeBaseInitStructure.TIM_Period = 10000 - 1;				// 计数周期，即ARR的值
+	TIM_TimeBaseInitStructure.TIM_Period = 10 - 1;					// 计数周期，即ARR的值
 	TIM_TimeBaseInitStructure.TIM_Prescaler = 7200 - 1;				// 预分频器，即PSC的值
 	TIM_TimeBaseInitStructure.TIM_RepetitionCounter = 0;			// 重复计数器，高级定时器才会用到
 	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseInitStructure);				// 将结构体变量交给TIM_TimeBaseInit，配置TIM2的时基单元
@@ -47,14 +47,3 @@ void Timer_Init(void)
 	/*TIM使能*/
 	TIM_Cmd(TIM2, ENABLE); // 使能TIM2，定时器开始运行
 }
-
-/* 定时器中断函数，可以复制到使用它的地方
-void TIM2_IRQHandler(void)
-{
-	if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
-	{
-
-		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-	}
-}
-*/
