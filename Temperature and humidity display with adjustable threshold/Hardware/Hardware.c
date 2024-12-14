@@ -91,14 +91,7 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
     OLED_ShowString(2, 9, "H^:");
     OLED_ShowSignedNum(2, 4, THigh, 2);
     OLED_ShowSignedNum(3, 4, TLow, 2);
-    if (HHigh == 100)
-    {
-        OLED_ShowSignedNum(2, 12, HHigh, 3);
-    }
-    else
-    {
-        OLED_ShowSignedNum(2, 12, HHigh, 2);
-    }
+    OLED_ShowSignedNum(2, 12, HHigh, 2);
     OLED_ShowSignedNum(3, 12, HLow, 2);
     if (*KeyNum == 2)
     {
@@ -113,9 +106,9 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
         {
             THigh = 80;
         }
-        if (HHigh > 100) // 湿度上阈值越界判断
+        if (HHigh > 99) // 湿度上阈值越界判断
         {
-            HHigh = 100;
+            HHigh = 99;
         }
         if (TLow >= THigh) // 温度下阈值++不能超过上阈值
         {

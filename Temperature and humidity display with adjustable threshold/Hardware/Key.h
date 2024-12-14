@@ -15,6 +15,7 @@
 #define Key4 GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)
 
 void Key_Init(void);
-uint8_t Key_GetNum(uint8_t *KeyFlag);
+uint8_t Key_GetNum(void);
+uint8_t Key_GetNum2(void);
 
 #endif
