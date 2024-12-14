@@ -34,3 +34,4 @@
 .\objects\main.o: .\Hardware\MySPI_S.h
 .\objects\main.o: .\Hardware\Key.h
 .\objects\main.o: .\Hardware\LED.h
+.\objects\main.o: .\Hardware\DHT22.h

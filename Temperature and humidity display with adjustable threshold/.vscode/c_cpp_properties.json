@@ -3,11 +3,11 @@
         {
             "name": "Target 1",
             "includePath": [
-                "d:\\Documents\\BaiduNetdiskWorkspace\\单片机课程设计\\1_code\\Start",
-                "d:\\Documents\\BaiduNetdiskWorkspace\\单片机课程设计\\1_code\\Library",
-                "d:\\Documents\\BaiduNetdiskWorkspace\\单片机课程设计\\1_code\\User",
-                "d:\\Documents\\BaiduNetdiskWorkspace\\单片机课程设计\\1_code\\System",
-                "d:\\Documents\\BaiduNetdiskWorkspace\\单片机课程设计\\1_code\\Hardware"
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\Temperature and humidity display with adjustable threshold\\Start",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\Temperature and humidity display with adjustable threshold\\Library",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\Temperature and humidity display with adjustable threshold\\User",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\Temperature and humidity display with adjustable threshold\\System",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\Temperature and humidity display with adjustable threshold\\Hardware"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",

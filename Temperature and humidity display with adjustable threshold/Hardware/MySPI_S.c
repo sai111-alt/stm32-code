@@ -2,39 +2,39 @@
 
 void MySPI_W_SS(uint8_t BitValue)
 {
-    GPIO_WriteBit(GPIOB, GPIO_Pin_10, (BitAction)BitValue);
+    GPIO_WriteBit(GPIOA, SS, (BitAction)BitValue);
 }
 
 void MySPI_W_SCK(uint8_t BitValue)
 {
-    GPIO_WriteBit(GPIOB, GPIO_Pin_11, (BitAction)BitValue);
+    GPIO_WriteBit(GPIOA, SCK, (BitAction)BitValue);
 }
 
 void MySPI_W_MOSI(uint8_t BitValue)
 {
-    GPIO_WriteBit(GPIOB, GPIO_Pin_0, (BitAction)BitValue);
+    GPIO_WriteBit(GPIOA, MOSI, (BitAction)BitValue);
 }
 
 uint8_t MySPI_R_MISO(void)
 {
-    return GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1);
+    return GPIO_ReadInputDataBit(GPIOA, MISO);
 }
 
 void MySPI_Init(void)
 {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
     GPIO_InitTypeDef GPIO_InitStruct;
 
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP; // 输入引脚配置为推挽输出模式
-    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_0;
+    GPIO_InitStruct.GPIO_Pin = SS | SCK | MOSI;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU; // 输入引脚配置为上拉输入模式
-    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_1;
+    GPIO_InitStruct.GPIO_Pin = MISO;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     MySPI_W_SS(1);  // 初始化为0，不选择从机设备
     MySPI_W_SCK(0); // 使用模式0，则SCK初试化为0，备注：W25Q64支持SPI模式0和模式1
