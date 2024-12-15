@@ -16,6 +16,6 @@
 
 void Key_Init(void);
 uint8_t Key_GetNum(void);
-uint8_t Key_GetNum2(void);
+void IndependentKey_Loop(void);
 
 #endif

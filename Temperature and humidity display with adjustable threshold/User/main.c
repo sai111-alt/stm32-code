@@ -6,7 +6,7 @@ uint8_t KeyNum = 0;			   // 存键码
 uint8_t SetFlag = 0;		   // 进入阈值设置的标志位，0完成1设置
 uint8_t SetPlace = 0;		   // 设置选择位
 uint8_t SetPlaceFlashFlag = 0; // 闪烁标志位
-uint8_t KeyFlag = 0;
+uint8_t KeyFlag = 0;		   // 长按标志位
 
 int main(void)
 {
@@ -30,7 +30,7 @@ int main(void)
 	OLED_ShowString(3, 1, "):");
 	while (1)
 	{
-		KeyNum = Key_GetNum(&KeyFlag);
+		KeyNum = Key_GetNum();
 		if (KeyNum == 1)
 		{
 			if (SetFlag == 0)
@@ -64,7 +64,7 @@ int main(void)
 			DataStorage(TemHemValue);
 			break;
 		case 1:
-			ValueSet(ArrayValue, &KeyNum, &SetPlace, &SetPlaceFlashFlag);
+			ValueSet(ArrayValue, &KeyNum, &SetPlace, &SetPlaceFlashFlag, &KeyFlag);
 			break;
 		default:
 			break;
@@ -72,20 +72,20 @@ int main(void)
 	}
 } // 所以文件中最后一行必须是空行，否则会报警告: last line of file ends without a newline
 
-// 补上闪烁的定时程序
+// 定时程序
 void TIM2_IRQHandler(void)
 {
 	static unsigned int T0Count1 = 0;
 	static unsigned int T0Count2 = 0;
+	static unsigned int T0Count3 = 0;
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
 	{
 		T0Count1++;
 		if (T0Count1 >= 500)
 		{
 			T0Count1 = 0;
-			SetPlaceFlashFlag = !SetPlaceFlashFlag; // 每0.5s翻转一次
+			SetPlaceFlashFlag = !SetPlaceFlashFlag; // 每0.5s翻转一次，对应闪烁程序
 		}
-
 		if (Key3 == 0 || Key4 == 0)
 		{
 			T0Count2++;
@@ -97,6 +97,13 @@ void TIM2_IRQHandler(void)
 		else
 		{
 			T0Count2 = 0;
+			KeyFlag = 0;
+		}
+		T0Count3++;
+		if (T0Count3 >= 20)
+		{
+			T0Count3 = 0;
+			IndependentKey_Loop();
 		}
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 	}

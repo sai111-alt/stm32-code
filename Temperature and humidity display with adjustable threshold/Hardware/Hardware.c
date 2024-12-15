@@ -80,9 +80,8 @@ void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
     }
 }
 
-void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *SetPlaceFlashFlag)
+void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *SetPlaceFlashFlag, uint8_t *KeyFlag)
 {
-
     // 阈值显示
     OLED_ShowString(1, 1, "Setting");
     OLED_ShowString(3, 1, "T_:");
@@ -98,7 +97,7 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
         (*SetPlace)++;    // 注意运算顺序
         (*SetPlace) %= 4; // 取值0~3
     }
-    if (*KeyNum == 3)
+    if (*KeyNum == 3 || (Key3 == 0) && (*KeyFlag))
     {
         ArrayValue[*SetPlace]++;
         // 越界判断
@@ -119,7 +118,7 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
             HLow--;
         }
     }
-    if (*KeyNum == 4)
+    if (*KeyNum == 4 || ((Key4 == 0) && (*KeyFlag)))
     {
         ArrayValue[*SetPlace]--;
         if (TLow < -40) // 温度下阈值越界判断
@@ -141,7 +140,7 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
     }
 
     // 闪烁显示
-    if (*SetPlace == 0 && (*SetPlaceFlashFlag) == 1)
+    if ((*SetPlace) == 0 && (*SetPlaceFlashFlag) == 1)
     {
         OLED_ShowString(2, 7, "<");
     }
@@ -149,7 +148,7 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
     {
         OLED_ShowString(2, 7, "  ");
     }
-    if (*SetPlace == 1 && (*SetPlaceFlashFlag) == 1)
+    if ((*SetPlace) == 1 && (*SetPlaceFlashFlag) == 1)
     {
         OLED_ShowString(3, 7, "<");
     }
@@ -157,7 +156,7 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
     {
         OLED_ShowString(3, 7, "  ");
     }
-    if (*SetPlace == 2 && (*SetPlaceFlashFlag) == 1)
+    if ((*SetPlace) == 2 && (*SetPlaceFlashFlag) == 1)
     {
         OLED_ShowString(2, 15, "<");
     }
@@ -165,7 +164,7 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
     {
         OLED_ShowString(2, 15, "  ");
     }
-    if (*SetPlace == 3 && (*SetPlaceFlashFlag) == 1)
+    if ((*SetPlace) == 3 && (*SetPlaceFlashFlag) == 1)
     {
         OLED_ShowString(3, 15, "<");
     }
