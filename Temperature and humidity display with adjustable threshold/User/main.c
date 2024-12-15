@@ -7,6 +7,7 @@ uint8_t SetFlag = 0;		   // 进入阈值设置的标志位，0完成1设置
 uint8_t SetPlace = 0;		   // 设置选择位
 uint8_t SetPlaceFlashFlag = 0; // 闪烁标志位
 uint8_t KeyFlag = 0;		   // 长按标志位
+uint8_t DataFlag = 0;		   // 存储标志位
 
 int main(void)
 {
@@ -33,40 +34,50 @@ int main(void)
 		KeyNum = Key_GetNum();
 		if (KeyNum == 1)
 		{
-			if (SetFlag == 0)
+			(SetFlag)++;	  // 注意运算顺序
+			(SetFlag) %= 3;	  // 取值0~2
+			if (SetFlag == 0) // 回到主界面
 			{
-				SetFlag = 1;
+				OLED_Clear();
+				OLED_ShowString(2, 1, "(:");
+				OLED_ShowString(3, 1, "):");
+			}
+			else if (SetFlag == 1) // 第一次按下key1进入温度阈值设置界面
+			{
+
 				SetPlace = 0;
 				OLED_Clear();
 				// 重新赋值数据
 				W25Q64_ReadData(0X000000, ArrayValue, 4);
 			}
-			else if (SetFlag == 1)
+			else if (SetFlag == 2) // 第二次按下key1进入数据记录界面
 			{
-				// 将设置好的数值写入存储器
+				// 将设置好的阈值数值写入存储器
 				W25Q64_SectorErase(0x000000);
 				W25Q64_PageProgram(0x000000, ArrayValue, 4);
 				// 显示设置成功
 				OLED_ShowString(4, 1, "SET OK");
 				// 延时显示“SET OK”
-				Delay_ms(1500);
-
-				SetFlag = 0;
+				Delay_ms(1250);
 				OLED_Clear();
-				OLED_ShowString(2, 1, "(:");
-				OLED_ShowString(3, 1, "):");
+				OLED_ShowString(1, 1, "Data       1/682");
 			}
 		}
 		switch (SetFlag)
 		{
 		case 0:
 			ValueJudgeShow(TemHemValue, ArrayValue, &KeyNum);
-			DataStorage(TemHemValue);
+			DataStorage(TemHemValue, &DataFlag);
 			break;
 		case 1:
 			ValueSet(ArrayValue, &KeyNum, &SetPlace, &SetPlaceFlashFlag, &KeyFlag);
 			break;
+		case 2:
+			DataStorageShow(&KeyNum, &KeyFlag);
+			break;
 		default:
+			OLED_Clear();
+			OLED_ShowString(1, 1, "ERROR");
 			break;
 		}
 	}
@@ -78,6 +89,7 @@ void TIM2_IRQHandler(void)
 	static unsigned int T0Count1 = 0;
 	static unsigned int T0Count2 = 0;
 	static unsigned int T0Count3 = 0;
+	static unsigned int T0Count4 = 0;
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
 	{
 		T0Count1++;
@@ -104,6 +116,12 @@ void TIM2_IRQHandler(void)
 		{
 			T0Count3 = 0;
 			IndependentKey_Loop();
+		}
+		T0Count4++;
+		if (T0Count4 >= 500)
+		{
+			T0Count4 = 0;
+			DataFlag = !DataFlag; // 每0.5s翻转一次，对应数据存储程序
 		}
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 	}

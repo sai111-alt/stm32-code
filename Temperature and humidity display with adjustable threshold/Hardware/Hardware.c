@@ -26,16 +26,18 @@ void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
     }
     Delay_ms(100); // 等待DHT22在输出完数据后还会输出50us的低电平，必须等待该电平过去，否则会出错
 
-    // 温度小数字节的最高位是温度的符号位，0正1负
-    OLED_ShowNum(2, 4, Tem, 2);
-    OLED_ShowString(2, 6, ".");
-    OLED_ShowNum(2, 7, TemHemValue[3], 1);
-    OLED_ShowString(2, 8, "!C");
+    // DHT22：温度整数字节的最高位是温度的符号位，0正1负
+    // DHT11：温度小数字节的最高位是温度的符号位，0正1负
+    // 测试新到的DHT22再加入温度的负值判断
+    OLED_ShowNum(2, 3, Tem, 2);
+    OLED_ShowString(2, 5, ".");
+    OLED_ShowNum(2, 6, TemHemValue[3], 1);
+    OLED_ShowString(2, 7, "!C");
 
-    OLED_ShowNum(3, 4, Hem, 2);
-    OLED_ShowString(3, 6, ".");
-    OLED_ShowNum(3, 7, TemHemValue[1], 1);
-    OLED_ShowString(3, 8, "%RH");
+    OLED_ShowNum(3, 3, Hem, 2);
+    OLED_ShowString(3, 5, ".");
+    OLED_ShowNum(3, 6, TemHemValue[1], 1);
+    OLED_ShowString(3, 7, "%RH");
     if (LedFlashFlag == 0)
     {
         if (*KeyNum == 2)
@@ -48,31 +50,31 @@ void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
             W25Q64_ReadData(0X000000, ArrayValue, 4);
             if ((Tem < TLow) || (Tem > THigh))
             {
-                Buzzer_Turn();
+                // Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                // Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                // Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                // Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(700);
             }
             if ((Hem < HLow) || (Hem > HHigh))
             {
-                Buzzer_Turn();
+                // Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                // Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                // Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                // Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(700);
             }
@@ -84,20 +86,20 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
 {
     // 阈值显示
     OLED_ShowString(1, 1, "Setting");
-    OLED_ShowString(3, 1, "T_:");
-    OLED_ShowString(3, 9, "H_:");
-    OLED_ShowString(2, 1, "T^:");
-    OLED_ShowString(2, 9, "H^:");
+    OLED_ShowString(3, 1, "(_:");
+    OLED_ShowString(3, 9, ")_:");
+    OLED_ShowString(2, 1, "(^:");
+    OLED_ShowString(2, 9, ")^:");
     OLED_ShowSignedNum(2, 4, THigh, 2);
     OLED_ShowSignedNum(3, 4, TLow, 2);
     OLED_ShowSignedNum(2, 12, HHigh, 2);
     OLED_ShowSignedNum(3, 12, HLow, 2);
-    if (*KeyNum == 2)
+    if ((*KeyNum) == 2)
     {
         (*SetPlace)++;    // 注意运算顺序
         (*SetPlace) %= 4; // 取值0~3
     }
-    if (*KeyNum == 3 || (Key3 == 0) && (*KeyFlag))
+    if ((*KeyNum) == 3 || ((Key3 == 0) && (*KeyFlag)))
     {
         ArrayValue[*SetPlace]++;
         // 越界判断
@@ -118,7 +120,7 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
             HLow--;
         }
     }
-    if (*KeyNum == 4 || ((Key4 == 0) && (*KeyFlag)))
+    if ((*KeyNum) == 4 || ((Key4 == 0) && (*KeyFlag)))
     {
         ArrayValue[*SetPlace]--;
         if (TLow < -40) // 温度下阈值越界判断
@@ -176,22 +178,96 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
 
 /// @brief 将实时的温湿度数值写入存储器的第二个扇区
 /// @param TemHemValue 温湿度的数组指针
-void DataStorage(int8_t *TemHemValue)
+void DataStorage(int8_t *TemHemValue, uint8_t *DataFlag)
 {
-    static uint16_t StorageCount = 1024;
+    static uint16_t StorageCount = 2048;
     static uint32_t Address = 0x001000;
 
-    // 1个扇区4096B，一次存4个B，这里就存一个扇区，也就是可以存1024次温湿度数据
-    if (StorageCount)
+    if (*DataFlag)
     {
-        W25Q64_PageProgram(Address, TemHemValue, 4);
-        Address += 4;
-        StorageCount--;
+        // 1个扇区4096B，一次存2个B（温度整数和湿度整数），这里就存一个扇区，也就是可以存2048次温湿度数据
+        if (StorageCount)
+        {
+            W25Q64_PageProgram(Address, TemHemValue + 2, 1);
+            Address += 1;
+            StorageCount--;
+            W25Q64_PageProgram(Address, TemHemValue, 1);
+            Address += 1;
+            StorageCount--;
+        }
+        else
+        {
+            Address = 0x001000;
+            StorageCount = 2048;
+            W25Q64_SectorErase(0x001000);
+        }
     }
-    else
+}
+
+/// @brief 将存储好的数据显示出来
+/// @param
+void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag)
+{
+    static uint16_t page = 0; // 共682页
+    static uint32_t Address = 0x001000;
+    int8_t i = 0;
+    int8_t TH[2] = {0};
+    static uint16_t flag = 0;
+
+    // 数据显示
+    if (flag == 0)
     {
+        if (page >= 682)
+        {
+            page = 0;
+            Address = 0x001000;
+        }
+        else
+        {
+            for (i = 2; i < 5; i++)
+            {
+                W25Q64_ReadData(Address, TH, 2);
+                OLED_ShowString(i, 8, "(");
+                OLED_ShowNum(i, 9, TH[0], 2);
+                OLED_ShowString(i, 11, "!");
+                OLED_ShowString(i, 13, ")");
+                OLED_ShowNum(i, 14, TH[1], 2);
+                OLED_ShowString(i, 16, "%");
+                Address += 2;
+            }
+            flag = 1;
+            page++;
+        }
+    }
+
+    // 页数显示
+    OLED_ShowNum(1, 10, page, 3);
+
+    //  向下翻页
+    if ((*KeyNum) == 3 || ((Key3 == 0) && (*KeyFlag)))
+    {
+        flag = 0;
+    }
+    if ((*KeyNum) == 4 || ((Key4 == 0) && (*KeyFlag)))
+    {
+        flag = 0;
+        if (page == 1)
+        {
+            page = 681;
+            Address = 0x001FF6;
+        }
+        else
+        {
+            page -= 2;
+            Address -= 12;
+        }
+    }
+
+    // 复位，回到第一页
+    if ((*KeyNum) == 2)
+    {
+        flag = 0;
         Address = 0x001000;
-        StorageCount = 1024;
-        W25Q64_SectorErase(0x001000);
+        page = 0;
     }
 }
