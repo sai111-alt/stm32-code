@@ -181,23 +181,23 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
 void DataStorage(int8_t *TemHemValue, uint8_t *DataFlag)
 {
     static uint16_t StorageCount = 2048;
-    static uint32_t Address = 0x001000;
+    static uint32_t DataAddress = 0x001000;
 
     if (*DataFlag)
     {
         // 1个扇区4096B，一次存2个B（温度整数和湿度整数），这里就存一个扇区，也就是可以存2048次温湿度数据
         if (StorageCount)
         {
-            W25Q64_PageProgram(Address, TemHemValue + 2, 1);
-            Address += 1;
+            W25Q64_PageProgram(DataAddress, TemHemValue + 2, 1);
+            DataAddress += 1;
             StorageCount--;
-            W25Q64_PageProgram(Address, TemHemValue, 1);
-            Address += 1;
+            W25Q64_PageProgram(DataAddress, TemHemValue, 1);
+            DataAddress += 1;
             StorageCount--;
         }
         else
         {
-            Address = 0x001000;
+            DataAddress = 0x001000;
             StorageCount = 2048;
             W25Q64_SectorErase(0x001000);
         }
@@ -206,68 +206,77 @@ void DataStorage(int8_t *TemHemValue, uint8_t *DataFlag)
 
 /// @brief 将存储好的数据显示出来
 /// @param
-void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag)
+void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag, uint16_t *DataPage, uint32_t *DataAddress, uint8_t *flag)
 {
-    static uint16_t page = 0; // 共682页
-    static uint32_t Address = 0x001000;
     int8_t i = 0;
     int8_t TH[2] = {0};
-    static uint16_t flag = 0;
 
     // 数据显示
-    if (flag == 0)
+    if ((*flag) == 0)
     {
-        if (page >= 682)
+        if ((*DataPage) >= 682)
         {
-            page = 0;
-            Address = 0x001000;
+            (*DataPage) = 0;
+            (*DataAddress) = 0x001000;
         }
         else
         {
             for (i = 2; i < 5; i++)
             {
-                W25Q64_ReadData(Address, TH, 2);
-                OLED_ShowString(i, 8, "(");
-                OLED_ShowNum(i, 9, TH[0], 2);
-                OLED_ShowString(i, 11, "!");
-                OLED_ShowString(i, 13, ")");
-                OLED_ShowNum(i, 14, TH[1], 2);
-                OLED_ShowString(i, 16, "%");
-                Address += 2;
+                W25Q64_ReadData((*DataAddress), TH, 2);
+                if ((TH[0] == -1) || (TH[1] == -1)) // 0xFF是空白数据，这里用的有符号存储，所以应该是== -1
+                {
+                    OLED_ShowString(i, 8, "(");
+                    OLED_ShowString(i, 9, "--");
+                    OLED_ShowString(i, 11, "!");
+                    OLED_ShowString(i, 13, ")");
+                    OLED_ShowString(i, 14, "--");
+                    OLED_ShowString(i, 16, "%");
+                }
+                else
+                {
+                    OLED_ShowString(i, 8, "(");
+                    OLED_ShowNum(i, 9, TH[0], 2);
+                    OLED_ShowString(i, 11, "!");
+                    OLED_ShowString(i, 13, ")");
+                    OLED_ShowNum(i, 14, TH[1], 2);
+                    OLED_ShowString(i, 16, "%");
+                }
+                (*DataAddress) += 2;
             }
-            flag = 1;
-            page++;
+            (*flag) = 1;
+            (*DataPage)++;
         }
     }
 
     // 页数显示
-    OLED_ShowNum(1, 10, page, 3);
+    OLED_ShowNum(1, 10, (*DataPage), 3);
 
     //  向下翻页
     if ((*KeyNum) == 3 || ((Key3 == 0) && (*KeyFlag)))
     {
-        flag = 0;
+        (*flag) = 0;
     }
     if ((*KeyNum) == 4 || ((Key4 == 0) && (*KeyFlag)))
     {
-        flag = 0;
-        if (page == 1)
+        (*flag) = 0;
+        if ((*DataPage) == 1)
         {
-            page = 681;
-            Address = 0x001FF6;
+            (*DataPage) = 681;
+            (*DataAddress) = 0x001FF6;
         }
         else
         {
-            page -= 2;
-            Address -= 12;
+            (*DataPage) -= 2;
+            (*DataAddress) -= 12;
         }
     }
 
     // 复位，回到第一页
     if ((*KeyNum) == 2)
     {
-        flag = 0;
-        Address = 0x001000;
-        page = 0;
+        (*flag) = 0;
+        (*DataAddress) = 0x001000;
+        (*DataPage) = 0;
     }
 }

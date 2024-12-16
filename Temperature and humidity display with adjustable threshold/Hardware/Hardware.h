@@ -23,6 +23,6 @@ void HardWare_Init(void);
 void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum);
 void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *SetPlaceFlashFlag, uint8_t *KeyFlag);
 void DataStorage(int8_t *TemHemValue, uint8_t *DataFlag);
-void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag);
+void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag, uint16_t *DataPage, uint32_t *DataAddress, uint8_t *flag);
 
 #endif

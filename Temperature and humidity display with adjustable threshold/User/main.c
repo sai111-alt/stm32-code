@@ -1,13 +1,16 @@
 #include "Hardware.h"
 
-int8_t TemHemValue[4] = {0};   // 存放温湿度值，0湿度整数，1湿度度小数，2温度整数，3温度小数
-int8_t ArrayValue[4] = {0};	   // 放阈值
-uint8_t KeyNum = 0;			   // 存键码
-uint8_t SetFlag = 0;		   // 进入阈值设置的标志位，0完成1设置
-uint8_t SetPlace = 0;		   // 设置选择位
-uint8_t SetPlaceFlashFlag = 0; // 闪烁标志位
-uint8_t KeyFlag = 0;		   // 长按标志位
-uint8_t DataFlag = 0;		   // 存储标志位
+int8_t TemHemValue[4] = {0};	 // 存放温湿度值，0湿度整数，1湿度度小数，2温度整数，3温度小数
+int8_t ArrayValue[4] = {0};		 // 放阈值
+uint8_t KeyNum = 0;				 // 存键码
+uint8_t SetFlag = 0;			 // 进入阈值设置的标志位，0完成1设置
+uint8_t SetPlace = 0;			 // 设置选择位
+uint8_t SetPlaceFlashFlag = 0;	 // 闪烁标志位
+uint8_t KeyFlag = 0;			 // 长按标志位
+uint8_t DataFlag = 0;			 // 存储标志位
+uint16_t DataPage = 0;			 // 数据所在页数
+uint32_t DataAddress = 0x001000; // 温湿度存储数据地址
+uint8_t flag = 0;				 // 数据显示标志位
 
 int main(void)
 {
@@ -34,18 +37,18 @@ int main(void)
 		KeyNum = Key_GetNum();
 		if (KeyNum == 1)
 		{
-			(SetFlag)++;	  // 注意运算顺序
-			(SetFlag) %= 3;	  // 取值0~2
-			if (SetFlag == 0) // 回到主界面
+			(SetFlag)++;	// 注意运算顺序
+			(SetFlag) %= 3; // 取值0~2
+			if (SetFlag == 0)
 			{
+				// 回到主界面并初试化
 				OLED_Clear();
 				OLED_ShowString(2, 1, "(:");
 				OLED_ShowString(3, 1, "):");
 			}
 			else if (SetFlag == 1) // 第一次按下key1进入温度阈值设置界面
 			{
-
-				SetPlace = 0;
+				// 进入进入温度阈值设置界面并初始化
 				OLED_Clear();
 				// 重新赋值数据
 				W25Q64_ReadData(0X000000, ArrayValue, 4);
@@ -59,8 +62,13 @@ int main(void)
 				OLED_ShowString(4, 1, "SET OK");
 				// 延时显示“SET OK”
 				Delay_ms(1250);
+
+				// 进入数据记录界面并初始化
 				OLED_Clear();
 				OLED_ShowString(1, 1, "Data       1/682");
+				DataPage = 0;
+				DataAddress = 0x001000;
+				flag = 0;
 			}
 		}
 		switch (SetFlag)
@@ -73,7 +81,7 @@ int main(void)
 			ValueSet(ArrayValue, &KeyNum, &SetPlace, &SetPlaceFlashFlag, &KeyFlag);
 			break;
 		case 2:
-			DataStorageShow(&KeyNum, &KeyFlag);
+			DataStorageShow(&KeyNum, &KeyFlag, &DataPage, &DataAddress, &flag);
 			break;
 		default:
 			OLED_Clear();
