@@ -12,10 +12,19 @@ void HardWare_Init(void)
     Buzzer_Init();
     LED_Init();
     Timer_Init();
+    MyRTC_Init();
 }
 
 void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
 {
+    MyRTC_ReadTime();               // RTC读取时间，最新的时间存储到MyRTC_Time数组中
+    OLED_ShowNum(4, 1, Year, 4);    // 显示MyRTC_Time数组中的时间值，年
+    OLED_ShowNum(4, 6, Month, 2);   // 月
+    OLED_ShowNum(4, 9, Day, 2);     // 日
+    OLED_ShowNum(4, 12, Hour, 2);   // 时
+    OLED_ShowNum(4, 15, Minute, 2); // 分
+
+    // 读取温湿度数据
     if (DHT22_Read_Data(TemHemValue))
     {
         OLED_ShowString(1, 1, "Error");
@@ -50,31 +59,31 @@ void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
             W25Q64_ReadData(0X000000, ArrayValue, 4);
             if ((Tem < TLow) || (Tem > THigh))
             {
-                // Buzzer_Turn();
+                Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(100);
-                // Buzzer_Turn();
+                Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(100);
-                // Buzzer_Turn();
+                Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(100);
-                // Buzzer_Turn();
+                Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(700);
             }
             if ((Hem < HLow) || (Hem > HHigh))
             {
-                // Buzzer_Turn();
+                Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(100);
-                // Buzzer_Turn();
+                Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(100);
-                // Buzzer_Turn();
+                Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(100);
-                // Buzzer_Turn();
+                Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(700);
             }
@@ -180,12 +189,13 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
 /// @param TemHemValue 温湿度的数组指针
 void DataStorage(int8_t *TemHemValue, uint8_t *DataFlag)
 {
-    static uint16_t StorageCount = 2048;
+    static uint16_t StorageCount = 1024;
     static uint32_t DataAddress = 0x001000;
 
     if (*DataFlag)
     {
-        // 1个扇区4096B，一次存2个B（温度整数和湿度整数），这里就存一个扇区，也就是可以存2048次温湿度数据
+        // 第二个扇区：1个扇区4096B，一次存4个B（温度整数，湿度整数，小时，分钟），这里就存一个扇区，也就是可以存1024次温湿度数据
+        // 每42分存一次，共1024/42=24,也即第二个扇区只存一天的实时数据
         if (StorageCount)
         {
             W25Q64_PageProgram(DataAddress, TemHemValue + 2, 1);
@@ -194,11 +204,17 @@ void DataStorage(int8_t *TemHemValue, uint8_t *DataFlag)
             W25Q64_PageProgram(DataAddress, TemHemValue, 1);
             DataAddress += 1;
             StorageCount--;
+            W25Q64_PageProgram(DataAddress, (int8_t *)(MyRTC_Time + 3), 1);
+            DataAddress += 1;
+            StorageCount--;
+            W25Q64_PageProgram(DataAddress, (int8_t *)(MyRTC_Time + 4), 1);
+            DataAddress += 1;
+            StorageCount--;
         }
         else
         {
             DataAddress = 0x001000;
-            StorageCount = 2048;
+            StorageCount = 1024;
             W25Q64_SectorErase(0x001000);
         }
     }
@@ -209,12 +225,12 @@ void DataStorage(int8_t *TemHemValue, uint8_t *DataFlag)
 void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag, uint16_t *DataPage, uint32_t *DataAddress, uint8_t *flag)
 {
     int8_t i = 0;
-    int8_t TH[2] = {0};
+    int8_t TH[6] = {0}; // 0温度，1湿度，2小时，3分钟，4月份，5日期
 
     // 数据显示
     if ((*flag) == 0)
     {
-        if ((*DataPage) >= 682)
+        if ((*DataPage) >= 341)
         {
             (*DataPage) = 0;
             (*DataAddress) = 0x001000;
@@ -223,9 +239,14 @@ void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag, uint16_t *DataPage, uint
         {
             for (i = 2; i < 5; i++)
             {
-                W25Q64_ReadData((*DataAddress), TH, 2);
+                // 显示时间与对应温湿度
+                W25Q64_ReadData((*DataAddress), TH, 4);
                 if ((TH[0] == -1) || (TH[1] == -1)) // 0xFF是空白数据，这里用的有符号存储，所以应该是== -1
                 {
+                    OLED_ShowString(i, 1, "--");
+                    OLED_ShowString(i, 3, ":");
+                    OLED_ShowString(i, 4, "--");
+                    OLED_ShowString(i, 6, "--");
                     OLED_ShowString(i, 8, "(");
                     OLED_ShowString(i, 9, "--");
                     OLED_ShowString(i, 11, "!");
@@ -235,6 +256,10 @@ void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag, uint16_t *DataPage, uint
                 }
                 else
                 {
+                    OLED_ShowNum(i, 1, TH[2], 2);
+                    OLED_ShowString(i, 3, ":");
+                    OLED_ShowNum(i, 4, TH[3], 2);
+                    OLED_ShowString(i, 6, "--");
                     OLED_ShowString(i, 8, "(");
                     OLED_ShowNum(i, 9, TH[0], 2);
                     OLED_ShowString(i, 11, "!");
@@ -242,7 +267,7 @@ void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag, uint16_t *DataPage, uint
                     OLED_ShowNum(i, 14, TH[1], 2);
                     OLED_ShowString(i, 16, "%");
                 }
-                (*DataAddress) += 2;
+                (*DataAddress) += 4;
             }
             (*flag) = 1;
             (*DataPage)++;
@@ -262,13 +287,13 @@ void DataStorageShow(uint8_t *KeyNum, uint8_t *KeyFlag, uint16_t *DataPage, uint
         (*flag) = 0;
         if ((*DataPage) == 1)
         {
-            (*DataPage) = 681;
-            (*DataAddress) = 0x001FF6;
+            (*DataPage) = 340;
+            (*DataAddress) = 0x001FF0;
         }
         else
         {
             (*DataPage) -= 2;
-            (*DataAddress) -= 12;
+            (*DataAddress) -= 24;
         }
     }
 

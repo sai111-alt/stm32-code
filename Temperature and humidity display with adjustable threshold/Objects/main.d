@@ -38,3 +38,5 @@
 .\objects\main.o: .\Hardware\DHT22.h
 .\objects\main.o: .\Hardware\Buzzer.h
 .\objects\main.o: .\System\Timer.h
+.\objects\main.o: .\System\MyRTC.h
+.\objects\main.o: D:\RJ\Keil5\ARM\ARMCC\Bin\..\include\time.h

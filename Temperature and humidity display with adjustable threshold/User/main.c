@@ -32,9 +32,13 @@ int main(void)
 	// OLED固定显示
 	OLED_ShowString(2, 1, "(:");
 	OLED_ShowString(3, 1, "):");
+	OLED_ShowString(4, 1, "XXXX-XX-XX");
+	OLED_ShowString(4, 12, "XX:XX");
 	while (1)
 	{
 		KeyNum = Key_GetNum();
+
+		// 界面切换
 		if (KeyNum == 1)
 		{
 			(SetFlag)++;	// 注意运算顺序
@@ -45,6 +49,8 @@ int main(void)
 				OLED_Clear();
 				OLED_ShowString(2, 1, "(:");
 				OLED_ShowString(3, 1, "):");
+				OLED_ShowString(4, 1, "XXXX-XX-XX");
+				OLED_ShowString(4, 12, "XX:XX");
 			}
 			else if (SetFlag == 1) // 第一次按下key1进入温度阈值设置界面
 			{
@@ -65,7 +71,7 @@ int main(void)
 
 				// 进入数据记录界面并初始化
 				OLED_Clear();
-				OLED_ShowString(1, 1, "Data       1/682");
+				OLED_ShowString(1, 1, "Data       1/341");
 				DataPage = 0;
 				DataAddress = 0x001000;
 				flag = 0;
@@ -126,10 +132,10 @@ void TIM2_IRQHandler(void)
 			IndependentKey_Loop();
 		}
 		T0Count4++;
-		if (T0Count4 >= 500)
+		if (T0Count4 >= 2520000)
 		{
 			T0Count4 = 0;
-			DataFlag = !DataFlag; // 每0.5s翻转一次，对应数据存储程序
+			DataFlag = !DataFlag; // 每42分钟翻转一次，对应数据存储程序
 		}
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 	}
