@@ -25,14 +25,8 @@ void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
     OLED_ShowNum(4, 15, Minute, 2); // 分
 
     // 读取温湿度数据
-    if (DHT22_Read_Data(TemHemValue))
-    {
-        OLED_ShowString(1, 1, "Error");
-    }
-    else
-    {
-        OLED_ShowString(1, 1, "Welcome");
-    }
+    DHT22_Read_Data(TemHemValue);
+    OLED_ShowString(1, 1, "Welcome");
     Delay_ms(100); // 等待DHT22在输出完数据后还会输出50us的低电平，必须等待该电平过去，否则会出错
 
     // DHT22：温度整数字节的最高位是温度的符号位，0正1负
@@ -59,31 +53,31 @@ void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
             W25Q64_ReadData(0X000000, ArrayValue, 4);
             if ((Tem < TLow) || (Tem > THigh))
             {
-                Buzzer_Turn();
+                // Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                //  Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                //   Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                //   Buzzer_Turn();
                 LED1_Turn();
                 Delay_ms(700);
             }
             if ((Hem < HLow) || (Hem > HHigh))
             {
-                Buzzer_Turn();
+                //    Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                //   Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                //   Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(100);
-                Buzzer_Turn();
+                //   Buzzer_Turn();
                 LED2_Turn();
                 Delay_ms(700);
             }
