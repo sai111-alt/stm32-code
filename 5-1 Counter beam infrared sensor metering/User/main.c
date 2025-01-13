@@ -4,7 +4,8 @@
 
 int main(void)
 {
-
+	OLED_Init();
+	OLED_ShowString(1, 1, "HelloWorld");
 	while (1)
 	{
 		;
