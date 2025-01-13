@@ -17,7 +17,7 @@ void Key_Init(void)
     GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 
-// 获取当下被按下到抬起的按键码
+/// @brief 获取当下被按下到抬起的按键码
 uint8_t Key_GetNum(void)
 {
     unsigned char Temp = 0;

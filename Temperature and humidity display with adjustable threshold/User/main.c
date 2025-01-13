@@ -20,18 +20,18 @@ int main(void)
 	// 因为这里是温湿度是有符号数-127~128，所以0xFF最高位是1，表示负数，应按补码计算原码为-1，所以第一次给的数据就是-1
 	W25Q64_ReadData(0X000000, ArrayValue, 4);
 	W25Q64_ReadData(0X001000, TemHemValue, 4); // 设备初试化时读出一次原来的实时温湿度数据
-	// DAT22测量范围T为-40~80，H为0%~100%
-	if (THigh > 80 || TLow < -40 || HHigh > 100 || HLow < 0 ||
+	// DAT11测量范围T为0~50，H为0%~100%
+	if (THigh > 50 || TLow < 0 || HHigh > 80 || HLow < 20 ||
 		TLow > THigh || HLow > HHigh)
 	{
 		TLow = 5;
 		THigh = 30;
 		HLow = 20;
-		HHigh = 80;
+		HHigh = 70;
 	}
 	// OLED固定显示
-	OLED_ShowString(2, 1, "(:");
-	OLED_ShowString(3, 1, "):");
+	OLED_ShowString(2, 1, "(:"); //(对应的字模已改为温度图标
+	OLED_ShowString(3, 1, "):"); //)对应的字模已改为湿度图标
 	OLED_ShowString(4, 1, "XXXX-XX-XX");
 	OLED_ShowString(4, 12, "XX:XX");
 	while (1)

@@ -35,7 +35,7 @@
 .\objects\main.o: .\Hardware\MySPI_S.h
 .\objects\main.o: .\Hardware\Key.h
 .\objects\main.o: .\Hardware\LED.h
-.\objects\main.o: .\Hardware\DHT22.h
+.\objects\main.o: .\Hardware\DHT11.h
 .\objects\main.o: .\Hardware\Buzzer.h
 .\objects\main.o: .\System\Timer.h
 .\objects\main.o: .\System\MyRTC.h

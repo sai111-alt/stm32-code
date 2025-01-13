@@ -7,7 +7,7 @@
 #include "W25Q64.h"
 #include "Key.h"
 #include "LED.h"
-#include "DHT22.h"
+#include "DHT11.h"
 #include "Buzzer.h"
 #include "LED.h"
 #include "Timer.h"

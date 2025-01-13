@@ -8,7 +8,7 @@ void HardWare_Init(void)
     W25Q64_Init();
     Key_Init();
     LED_Init();
-    DHT22_Init();
+    DHT11_Init();
     Buzzer_Init();
     LED_Init();
     Timer_Init();
@@ -25,13 +25,10 @@ void ValueJudgeShow(int8_t *TemHemValue, int8_t *ArrayValue, uint8_t *KeyNum)
     OLED_ShowNum(4, 15, Minute, 2); // 分
 
     // 读取温湿度数据
-    DHT22_Read_Data(TemHemValue);
+    DHT11_Read_Data(TemHemValue);
     OLED_ShowString(1, 1, "Welcome");
-    Delay_ms(100); // 等待DHT22在输出完数据后还会输出50us的低电平，必须等待该电平过去，否则会出错
+    Delay_ms(100); // 等待DHT11在输出完数据后还会输出50us的低电平，必须等待该电平过去，否则会出错
 
-    // DHT22：温度整数字节的最高位是温度的符号位，0正1负
-    // DHT11：温度小数字节的最高位是温度的符号位，0正1负
-    // 测试新到的DHT22再加入温度的负值判断
     OLED_ShowNum(2, 3, Tem, 2);
     OLED_ShowString(2, 5, ".");
     OLED_ShowNum(2, 6, TemHemValue[3], 1);
@@ -106,13 +103,13 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
     {
         ArrayValue[*SetPlace]++;
         // 越界判断
-        if (THigh > 80) // 温度上阈值越界判断
+        if (THigh > 50) // 温度上阈值越界判断
         {
-            THigh = 80;
+            THigh = 50;
         }
-        if (HHigh > 99) // 湿度上阈值越界判断
+        if (HHigh > 80) // 湿度上阈值越界判断
         {
-            HHigh = 99;
+            HHigh = 80;
         }
         if (TLow >= THigh) // 温度下阈值++不能超过上阈值
         {
@@ -126,13 +123,13 @@ void ValueSet(int8_t *ArrayValue, uint8_t *KeyNum, uint8_t *SetPlace, uint8_t *S
     if ((*KeyNum) == 4 || ((Key4 == 0) && (*KeyFlag)))
     {
         ArrayValue[*SetPlace]--;
-        if (TLow < -40) // 温度下阈值越界判断
+        if (TLow < 0) // 温度下阈值越界判断
         {
-            TLow = -40;
+            TLow = 0;
         }
-        if (HLow < 0) // 湿度下阈值越界判断
+        if (HLow < 20) // 湿度下阈值越界判断
         {
-            HLow = 0;
+            HLow = 20;
         }
         if (THigh <= TLow) // 温度上阈值--不能少于上阈值
         {
