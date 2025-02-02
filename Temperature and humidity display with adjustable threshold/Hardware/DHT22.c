@@ -23,7 +23,7 @@ void DHT22_Mode(uint8_t mode)
 void DHT22_Start(void)
 {
 	DHT22_Mode(1);				 // 设置为输出模式
-	GPIO_ResetBits(GPIOB, DATA); // 拉低
+	GPIO_ResetBeits(GPIOB, DATA); // 拉低
 	Delay_ms(18);				 // 主机拉低18ms
 	GPIO_SetBits(GPIOB, DATA);	 // 拉高
 	Delay_us(20);				 // 主机拉高18-30us
