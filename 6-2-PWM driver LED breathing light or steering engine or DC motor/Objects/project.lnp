@@ -31,6 +31,7 @@
 ".\objects\lightsensor.o"
 ".\objects\oled.o"
 ".\objects\countsensor.o"
+".\objects\pwm.o"
 ".\objects\delay.o"
 ".\objects\timer.o"
 ".\objects\main.o"

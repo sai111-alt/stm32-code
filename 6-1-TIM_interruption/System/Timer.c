@@ -13,10 +13,8 @@ void Timer_Init(void)
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU;
     GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    TIM_ETRClockMode2Config(TIM2, TIM_ExtTRGPSC_OFF, TIM_ExtTRGPolarity_NonInverted, 0x00);
-
-    GPIO_Init(GPIOA, &GPIO_InitStruct); // 第一参数选择
-    GPIO_SetBits(GPIOA, GPIO_Pin_1 | GPIO_Pin_2);
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    TIM_ETRClockMode2Config(TIM2, TIM_ExtTRGPSC_OFF, TIM_ExtTRGPolarity_NonInverted, 0x00); // 设置外部时钟，第二个参数选择无需分频，第三参数选择高电平或上升沿生效，第三个参数选择0x00无需滤波器
 
     // 初始化时基单元
     TIM_TimeBaseInitTypeDef TIM_TimeBasicInitStructure;
