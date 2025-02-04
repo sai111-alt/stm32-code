@@ -3,11 +3,11 @@
         {
             "name": "Target 1",
             "includePath": [
-                "e:\\STM32\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\Start",
-                "e:\\STM32\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\Library",
-                "e:\\STM32\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\User",
-                "e:\\STM32\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\System",
-                "e:\\STM32\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\Hardware"
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\Start",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\Library",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\User",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\System",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\6-2-PWM driver LED breathing light or steering engine or DC motor\\Hardware"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",

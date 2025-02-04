@@ -716,14 +716,24 @@
               <FilePath>.\Hardware\CountSensor.h</FilePath>
             </File>
             <File>
-              <FileName>PWM.c</FileName>
+              <FileName>PWM_Breathing_LED.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Hardware\PWM.c</FilePath>
+              <FilePath>.\Hardware\PWM_Breathing_LED.c</FilePath>
             </File>
             <File>
-              <FileName>PWM.h</FileName>
+              <FileName>PWM_Breathing_LED.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Hardware\PWM.h</FilePath>
+              <FilePath>.\Hardware\PWM_Breathing_LED.h</FilePath>
+            </File>
+            <File>
+              <FileName>PWM_Steering_Engine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\PWM_Steering_Engine.c</FilePath>
+            </File>
+            <File>
+              <FileName>PWM_Steering_Engine.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\PWM_Steering_Engine.h</FilePath>
             </File>
           </Files>
         </Group>

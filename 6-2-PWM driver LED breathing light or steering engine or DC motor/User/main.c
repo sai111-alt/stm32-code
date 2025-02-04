@@ -1,26 +1,32 @@
 #include "stm32f10x.h"
 #include "Delay.h"
 #include "OLED.h"
-#include "PWM.h"
+#include "PWM_Steering_Engine.h"
+#include "Key.h"
 
-uint16_t i = 0;
+uint8_t KeyNum = 0;
+float Angle = 0;
 
 int main(void)
 {
 	OLED_Init();
-	PWM_Init();
+	PWM_SE_Init();
+	Key_Init();
+
+	OLED_ShowString(1, 1, "Angle:");
 
 	while (1)
 	{
-		for (i = 0; i <= 100; i++)
+		KeyNum = Key_GetNum();
+		if (KeyNum == 1)
 		{
-			PWM_SetCompare1(i);
-			Delay_ms(10);
+			Angle += 30;
+			if (Angle > 180)
+			{
+				Angle = 0;
+			}
 		}
-		for (i = 0; i <= 100; i++)
-		{
-			PWM_SetCompare1(100 - i);
-			Delay_ms(10);
-		}
+		SE_SetAngle(Angle);
+		OLED_ShowNum(1, 7, Angle, 3);
 	}
 } // 所有文件中最后一行必须是空行，否则会报警告: last line of file ends without a newline

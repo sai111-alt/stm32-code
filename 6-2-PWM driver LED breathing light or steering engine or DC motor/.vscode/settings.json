@@ -6,6 +6,8 @@
     "lightsensor.h": "c",
     "oled.h": "c",
     "oled_font.h": "c",
-    "key.h": "c"
+    "key.h": "c",
+    "pwm_breathing_led.h": "c",
+    "pwm_steering_engine.h": "c"
   }
 }
