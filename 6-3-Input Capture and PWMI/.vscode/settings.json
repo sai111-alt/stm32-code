@@ -9,6 +9,7 @@
     "key.h": "c",
     "pwm_breathing_led.h": "c",
     "pwm_steering_engine.h": "c",
-    "pwm_dc_motor.h": "c"
+    "pwm_dc_motor.h": "c",
+    "ic.h": "c"
   }
 }

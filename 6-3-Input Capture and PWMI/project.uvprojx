@@ -716,34 +716,34 @@
               <FilePath>.\Hardware\CountSensor.h</FilePath>
             </File>
             <File>
-              <FileName>PWM_Breathing_LED.c</FileName>
+              <FileName>IC.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Hardware\PWM_Breathing_LED.c</FilePath>
+              <FilePath>.\Hardware\IC.c</FilePath>
             </File>
             <File>
-              <FileName>PWM_Breathing_LED.h</FileName>
+              <FileName>IC.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Hardware\PWM_Breathing_LED.h</FilePath>
+              <FilePath>.\Hardware\IC.h</FilePath>
             </File>
             <File>
-              <FileName>PWM_Steering_Engine.c</FileName>
+              <FileName>PWM.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Hardware\PWM_Steering_Engine.c</FilePath>
+              <FilePath>.\Hardware\PWM.c</FilePath>
             </File>
             <File>
-              <FileName>PWM_Steering_Engine.h</FileName>
+              <FileName>PWM.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Hardware\PWM_Steering_Engine.h</FilePath>
+              <FilePath>.\Hardware\PWM.h</FilePath>
             </File>
             <File>
-              <FileName>PWM_DC_Motor.c</FileName>
+              <FileName>PWMI.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Hardware\PWM_DC_Motor.c</FilePath>
+              <FilePath>.\Hardware\PWMI.c</FilePath>
             </File>
             <File>
-              <FileName>PWM_DC_Motor.h</FileName>
+              <FileName>PWMI.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Hardware\PWM_DC_Motor.h</FilePath>
+              <FilePath>.\Hardware\PWMI.h</FilePath>
             </File>
           </Files>
         </Group>

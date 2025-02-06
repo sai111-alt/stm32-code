@@ -987,8 +987,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\PWM_Breathing_LED.c</PathWithFileName>
-      <FilenameWithoutPath>PWM_Breathing_LED.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\IC.c</PathWithFileName>
+      <FilenameWithoutPath>IC.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -999,8 +999,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\PWM_Breathing_LED.h</PathWithFileName>
-      <FilenameWithoutPath>PWM_Breathing_LED.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\IC.h</PathWithFileName>
+      <FilenameWithoutPath>IC.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1011,8 +1011,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\PWM_Steering_Engine.c</PathWithFileName>
-      <FilenameWithoutPath>PWM_Steering_Engine.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\PWM.c</PathWithFileName>
+      <FilenameWithoutPath>PWM.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1023,8 +1023,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\PWM_Steering_Engine.h</PathWithFileName>
-      <FilenameWithoutPath>PWM_Steering_Engine.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\PWM.h</PathWithFileName>
+      <FilenameWithoutPath>PWM.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1035,8 +1035,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\PWM_DC_Motor.c</PathWithFileName>
-      <FilenameWithoutPath>PWM_DC_Motor.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\PWMI.c</PathWithFileName>
+      <FilenameWithoutPath>PWMI.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1047,8 +1047,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\PWM_DC_Motor.h</PathWithFileName>
-      <FilenameWithoutPath>PWM_DC_Motor.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\PWMI.h</PathWithFileName>
+      <FilenameWithoutPath>PWMI.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
