@@ -4,6 +4,7 @@ void PWM_DCM_Init(void)
 {
     // 注意要使用APB1的时钟开启函数，TIM2是APB1总线的外设
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
     // 选择内部时钟为定时器的时钟，也可不写，因为上电默认就是内部时钟
     TIM_InternalClockConfig(TIM2);
@@ -26,12 +27,11 @@ void PWM_DCM_Init(void)
     TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;     // 选择REF高极性，即有效电平为高电平
     TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; // 选择比较输出使能
     TIM_OCInitStructure.TIM_Pulse = 0;                            // 设置CCR寄存器的值，则占空比就是CCR/ARR+1
-    TIM_OC1Init(TIM2, &TIM_OCInitStructure);                      // 配置CH3通道则使用OC3初始化函数
+    TIM_OC3Init(TIM2, &TIM_OCInitStructure);                      // 配置CH3通道则使用OC3初始化函数
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
     GPIO_InitTypeDef GPIO_InitStruct;
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP; // 使用定时器控制GPIO需要用到复用推挽输出模式
-    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStruct);
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -50,18 +50,13 @@ void Motor_SetSpeed(int8_t Speed)
     if (Speed >= 0)
     {
         GPIO_SetBits(GPIOA, GPIO_Pin_4);
-        GPIO_ResetBits(GPIOA, GPIO_Pin_4);
-        TIM_SetCompare1(TIM2, Speed);
+        GPIO_ResetBits(GPIOA, GPIO_Pin_5);
+        TIM_SetCompare3(TIM2, Speed);
     }
     else
     {
         GPIO_ResetBits(GPIOA, GPIO_Pin_4);
-        GPIO_SetBits(GPIOA, GPIO_Pin_4);
-        TIM_SetCompare1(TIM2, -Speed); // 注意速度绝对值是一样的，只是方向相反，所以要加上一个负号
+        GPIO_SetBits(GPIOA, GPIO_Pin_5);
+        TIM_SetCompare3(TIM2, -Speed); // 注意速度绝对值是一样的，只是方向相反，所以要加上一个负号
     }
-}
-
-void PWM_SetCompare1(uint16_t Compare)
-{
-    TIM_SetCompare1(TIM2, Compare);
 }
