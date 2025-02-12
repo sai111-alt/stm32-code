@@ -30,8 +30,15 @@
 #define MPU6050_PWR_MGMT_2 0x6C
 #define MPU6050_WHO_AM_I 0x75
 
+#define AccX AccGyro[0]
+#define AccY AccGyro[1]
+#define AccZ AccGyro[2]
+#define GyroX AccGyro[3]
+#define GyroY AccGyro[4]
+#define GyroZ AccGyro[5]
+
 void MPU6050_Init(void);
-void MPU6050_WriteReg(uint8_t RegAddress, uint8_t Data);
-uint8_t MPU6050_ReadReg(uint8_t RegAddress);
+void MPU6050_GetData(int16_t *AccGyro);
+uint8_t MPU6050_GetID(void);
 
 #endif
