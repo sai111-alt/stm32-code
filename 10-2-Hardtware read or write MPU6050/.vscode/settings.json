@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "stm32f10x.h": "c",
+    "buzzer.h": "c",
+    "delay.h": "c",
+    "lightsensor.h": "c",
+    "oled.h": "c",
+    "oled_font.h": "c",
+    "key.h": "c",
+    "timer.h": "c",
+    "encoder.h": "c",
+    "ad.h": "c",
+    "serial.h": "c",
+    "mpu6050.h": "c"
+  }
+}
