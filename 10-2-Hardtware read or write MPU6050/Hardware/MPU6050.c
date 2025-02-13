@@ -1,19 +1,34 @@
 #include "MPU6050.h"
 
+void MPU6050_WaitEvent(I2C_TypeDef *I2Cx, uint32_t I2C_EVENT)
+{
+    uint32_t Timeout = 10000; /* 增加超时等待的机制，避免出问题使其一直卡死在while死循环中 */
+    while (I2C_CheckEvent(I2Cx, I2C_EVENT) != SUCCESS)
+    {
+        Timeout--;
+        if (Timeout == 0)
+        {
+            break;
+        }
+    }
+}
+
 /// @brief 指定寄存器地址写一个字节
 /// @param RegAddress 寄存器地址
 /// @param Data 要写入的一个字节数据
 void MPU6050_WriteReg(uint8_t RegAddress, uint8_t Data)
 {
-    //  Software:
-    /*  MyI2C_Start();
-        MyI2C_SendByte(MPU6050_ADDRESS);
-        MyI2C_ReceiveAck();
-        MyI2C_SendByte(RegAddress);
-        MyI2C_ReceiveAck();
-        MyI2C_SendByte(Data);
-        MyI2C_ReceiveAck();
-        MYI2C_Stop(); */
+    // HardwareI2C:（硬件的接收应答和发送应答都是全自动的，无需函数主动去发送接收）
+    I2C_GenerateSTART(I2C2, ENABLE);                                       /* 产生I2C起始条件 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT);                 /* 等待EV5事件产生*/
+    I2C_Send7bitAddress(I2C2, MPU6050_ADDRESS, I2C_Direction_Transmitter); /* 发送从机地址MPU6050_ADDRESS，I2C_Direction_Transmitter表示给地址最后一位清零即写 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED);   /* 等待EV6事件产生*/
+    I2C_SendData(I2C2, RegAddress);                                        /* 发送要写入的寄存器地址 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTING);           /* 等待EV8事件产生*/
+    I2C_SendData(I2C2, Data);                                              /* 发送要写入的一个字节数据 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED);            /* 发送最后一个字节，要等待EV8_2事件产生*/
+                                                                           /* 反之，若不是最后一个字节，应等待EV8事件产生 */
+    I2C_GenerateSTOP(I2C2, ENABLE);                                        /* 产生I2C停止条件 */
 }
 
 /// @brief 指定寄存器地址读一个字节
@@ -23,27 +38,34 @@ uint8_t MPU6050_ReadReg(uint8_t RegAddress)
 {
     uint8_t Data = 0;
 
-    //  Software:
-    /*  MyI2C_Start();
-        MyI2C_SendByte(MPU6050_ADDRESS);
-        MyI2C_ReceiveAck();
-        MyI2C_SendByte(RegAddress);
-        MyI2C_ReceiveAck();
-        MyI2C_Start();
-        MyI2C_SendByte(MPU6050_ADDRESS | 0x01);
-        MyI2C_ReceiveAck();
-        Data = MyI2C_ReceiveByte();
-        MyI2C_SendAck(1);
-        MYI2C_Stop();*/
+    // HardwareI2C:（硬件的接收应答和发送应答都是全自动的，无需函数主动去发送接收）
+    I2C_GenerateSTART(I2C2, ENABLE);                                       /* 产生I2C起始条件 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT);                 /*等待EV5事件产生*/
+    I2C_Send7bitAddress(I2C2, MPU6050_ADDRESS, I2C_Direction_Transmitter); /* 发送从机地址MPU6050_ADDRESS，I2C_Direction_Transmitter表示给地址最后一位清零即写 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED);   /* 等待EV6事件产生*/
+    I2C_SendData(I2C2, RegAddress);                                        /* 因为这里是读，所以其实是发送要读取的寄存器地址 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED);            /* 等待EV8_2事件产生*/
+    /* EV8_2事件的本质就是移位寄存器的数据寄存器都空，此时再发送起始条件最佳，因为若移位寄存器非空，再发送起始条件，可
+    能会使当前发送的数据截断，虽然实际测试没有，但保险起见还是选择EV8_2事件 */
+    I2C_GenerateSTART(I2C2, ENABLE);                                    /* 重复产生I2C起始条件 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT);              /* 等待EV5事件产生*/
+    I2C_Send7bitAddress(I2C2, MPU6050_ADDRESS, I2C_Direction_Receiver); /* 发送从机地址MPU6050_ADDRESS，I2C_Direction_Receiver表示给地址最后一位置1即读 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED);   /* 等待EV6事件产生,注意这里是主机接收的EV6事件，前面是主机发送的EV6事件*/
+    I2C_AcknowledgeConfig(I2C2, DISABLE);
+    I2C_GenerateSTOP(I2C2, ENABLE);
+    /* 因为只读一个字节，在EV6事件后应立刻将应答位清0即非应答，查Notes 158页可知，一般在接收一个字节后STM32主机会自动发送应答
+    且没有任何事件产生，也就是说如果你不提前应答位清0，它就会自动发送应答，并自动接收下一个字节数据，所以要提前应答位清0，并且产生
+    停止信号，不用担心数据丢失，因为数据已经接收了并放在了DR寄存器中，你取出即可 */
+    MPU6050_WaitEvent(I2C2, I2C_EVENT_MASTER_BYTE_RECEIVED); /* 等待EV7事件产生*/
+    I2C_AcknowledgeConfig(I2C2, ENABLE);                     /* 给应答位置1，使得主机默认状态下就是要给从机应答，前面特殊情况才非应答，以方便后期代码修改*/
 
+    Data = I2C_ReceiveData(I2C2);
     return Data;
 }
 
 void MPU6050_Init(void)
 {
-    //  Software:
-    /*  MyI2C_Init(); */
-    // Hardware:
+    // HardwareI2C:
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);  /* 注意：无论是I2C1还是I2C2都是APB1上的外设 */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); /* 注意：GPIO是APB2上的外设 */
 
@@ -54,13 +76,18 @@ void MPU6050_Init(void)
     GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     I2C_InitTypeDef I2C_InitStructure;
-    I2C_InitStructure.I2C_Mode = I2C_Mode_I2C; // 选/*  */择I2C外设的模式为I2C通信协议而非SMBus通信协议
-    I2C_InitStructure.I2C_ClockSpeed = ;
-    I2C_InitStructure.I2C_DutyCycle = ;
-    I2C_InitStructure.I2C_Ack = ;
-    I2C_InitStructure.I2C_AcknowledgedAddress = ;
-    I2C_InitStructure.I2C_OwnAddress1 = ;
+    I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;                                /* 选择I2C外设的模式为I2C通信协议而非SMBus通信协议 */
+    I2C_InitStructure.I2C_ClockSpeed = 50000;                                 /* 时钟频率即50Khz，选择范围0-400Khz，对于STM32，
+    0-100Khz是标准速度，100-400Khz是快速，不能超过对应控制芯片的时钟频率，否则读不过来，这里MPU6050的最大为400Khz */
+    I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;                        /*设置时钟占空比，是用于快速模式，标准速度就是1:1，
+    因为我们的时钟频率是50Khz，是标准速度，所以这里的设置对应我们标准速度是无效的，可任意设置*/
+    I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;                               /* 配置在接收数据后主机发送应答 */
+    I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit; /* 这个参数是STM32作为从机，响应几位的地址，我们用不到，可任意设置*/
+    I2C_InitStructure.I2C_OwnAddress1 = 0x00;                                 /* 这个参数是设置STM32作为从机的地址，同样用不到，但需要注意
+    如果要用，这个从机地址要与上面的地址相匹配，上面选择响应7位，则这里你应该给7位的从机地址，10位同理 */
     I2C_Init(I2C2, &I2C_InitStructure);
+
+    I2C_Cmd(I2C2, ENABLE);
 
     // MPU6050初始配置:
     MPU6050_WriteReg(MPU6050_PWR_MGMT_1, 0x01);
