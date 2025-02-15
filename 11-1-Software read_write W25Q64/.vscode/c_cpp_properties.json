@@ -3,11 +3,11 @@
         {
             "name": "Target 1",
             "includePath": [
-                "d:\\Desktop\\11-1 Software read_write W25Q64\\Start",
-                "d:\\Desktop\\11-1 Software read_write W25Q64\\Library",
-                "d:\\Desktop\\11-1 Software read_write W25Q64\\User",
-                "d:\\Desktop\\11-1 Software read_write W25Q64\\System",
-                "d:\\Desktop\\11-1 Software read_write W25Q64\\Hardware"
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\11-1-Software read_write W25Q64\\Start",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\11-1-Software read_write W25Q64\\Library",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\11-1-Software read_write W25Q64\\User",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\11-1-Software read_write W25Q64\\System",
+                "e:\\学习\\学习文件\\电子__学习文件\\stm32单片机\\stm32-code\\11-1-Software read_write W25Q64\\Hardware"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",

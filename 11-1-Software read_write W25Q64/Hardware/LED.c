@@ -19,7 +19,7 @@ void LED1_ON(void)
     GPIO_ResetBits(GPIOA, GPIO_Pin_1);
 }
 
-void LED1_OFF(void)
+void LED1_OFF(vo id)
 {
     GPIO_SetBits(GPIOA, GPIO_Pin_1);
 }

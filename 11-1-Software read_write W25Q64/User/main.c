@@ -12,6 +12,7 @@ uint8_t ArrayRead[4];
 int main(void)
 {
 	OLED_Init();
+
 	W25Q64_Init();
 
 	OLED_ShowString(1, 1, "MID:   DID:");
