@@ -338,7 +338,7 @@ void OLED_WriteCommand(uint8_t Command)
     MYI2C_Stop();
 }
 
-/// @brief 写入一个数据
+/// @brief 写入数据
 /// @param Data 数据字节
 void OLED_WriteData(uint8_t *Data, uint8_t Count)
 {
